@@ -8,8 +8,11 @@ var stringifyJSON = function (obj) {
         if(typeof str === 'string'){
         return '"' + str + '"';
         }
-        else{
+        else if (typeof str !== 'function' && typeof str !== 'undefined'){
             return "" + str;
+        }
+        else{
+            return null;
         }
     };
     var stringy;
@@ -19,8 +22,11 @@ var stringifyJSON = function (obj) {
             if(typeof obj[num] === 'object'){
                 stringy += stringifyJSON(obj[num]) + ',';
             }
-            else {
+            else if (typeof obj[num] !== 'function' && typeof obj[num] !== 'undefined') {
                 stringy += converter(obj[num]) + ',';
+            }
+            else{
+                stringy+=null + ",";
             }
         }
         stringy = stringy.substr(0, stringy.length-1);
@@ -32,8 +38,11 @@ var stringifyJSON = function (obj) {
             if(typeof obj[key] === 'object'){
                 stringy += converter(key) + ':' + stringifyJSON(obj[key]) +',';
             }
-            else {
+            else if (typeof obj[key] !== 'function' && typeof obj[key] !== 'undefined') {
                 stringy += converter(key) + ":" + converter(obj[key]) + ',';
+            }
+            else{
+                stringy += null + ",";
             }
         }
         stringy = stringy.substr(0, stringy.length - 1);
