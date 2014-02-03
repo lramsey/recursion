@@ -11,9 +11,6 @@ var stringifyJSON = function (obj) {
         else if (typeof str !== 'function' && typeof str !== 'undefined'){
             return "" + str;
         }
-        else{
-            return null;
-        }
     };
     var stringy;
     if (Array.isArray(obj)){
@@ -44,12 +41,12 @@ var stringifyJSON = function (obj) {
             else if (typeof obj[key] !== 'function' && typeof obj[key] !== 'undefined') {
                 stringy += converter(key) + ":" + converter(obj[key]) + ',';
             }
-            else{
-                stringy += null + ",";
-            }
         }
         stringy = stringy.substr(0, stringy.length - 1);
         stringy += '}';
+        if (stringy.length === 1){
+            stringy = "{}";
+        }
     }
     else{
         stringy = converter(obj);
