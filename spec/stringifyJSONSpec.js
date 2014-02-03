@@ -9,7 +9,7 @@ describe("stringifyJSON", function(){
       expect(result).toEqual(expected);
     });
 
-    objectWithInvalidAttributes = nonStringifiableValues;
+    objectWithInvalidAttributes = [nonStringifiableValues, arrayWithInvalidStrings];
     objectWithInvalidAttributes.forEach(function(obj){
       var result = stringifyJSON(obj);
       var expected = JSON.stringify(obj);
