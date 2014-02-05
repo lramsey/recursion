@@ -7,26 +7,31 @@
 var getElementsByClassName = function (className) {
     // your code here
     var classElements = [];
-    var num;
-    var elementSelector = function(element){
-        var selectedElements = [];
-        if (element.childNodes === 0){
-            var classList = element.classList;
-            for (num = 0; num < classList.length; num++){
-                if(classList[num] === className){
-                    selectedElements.push(element);
+    
+    var hasClass = function(element){
+        if (element.classList !== undefined){
+            if(element.classList.contains(className)){
+                classElements.push(element);
+            }
+        }
+    };
+    
+    var elementSelector = function(item){
+        hasClass(item);
+        if(item.childNodes.length > 0){
+            for(var num = 0; num < item.childNodes.length; num++){
+                var childNode = item.childNodes[num];
+                if(childNode.childNodes.length > 0){
+                    elementSelector(childNode);
+                }
+                else {
+                    hasClass(childNode);
                 }
             }
         }
-        else {
-            for(num = 0; num < element.childNodes.length; num++){
-                selectedElements.push(elementSelector(element.childNodes[num]));
-            }
-            return selectedElements;
-        }
     };
 
-    classElements = elementSelector(document.body);
+    elementSelector(document.body);
 
     return classElements;
 };
